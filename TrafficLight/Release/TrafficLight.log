@@ -1,0 +1,12 @@
+﻿  stdafx.cpp
+  Light.cpp
+f:\igor\repos\trafficlight\trafficlight\light.cpp(9): warning C4309: 'initializing': truncation of constant value
+f:\igor\repos\trafficlight\trafficlight\light.cpp(10): warning C4309: 'initializing': truncation of constant value
+  AllLight.cpp
+  FacadeTrafficLight.cpp
+  Timer.cpp
+  TrafficLight.cpp
+  Generating code
+  All 128 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  TrafficLight.vcxproj -> F:\IGOR\repos\TrafficLight\Release\TrafficLight.exe
