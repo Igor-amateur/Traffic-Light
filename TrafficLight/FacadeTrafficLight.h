@@ -23,7 +23,7 @@ namespace trafficlight
 		std::vector<Light*> light_;
 		char keyComtrol_; // saves user commands
 		int oneColourPassTime_; //duration of the current color
-
+		std::ofstream* outfile;
 		// Luminosity duration constants
 		const int redTime_;
 		const int yellowTime_;
