@@ -1,12 +1,10 @@
-
-
 #include"stdafx.h"
 
 #include"FacadeTrafficLight.h"
-
 #include"AllLight.h"
 
-
+#include <iostream>
+#include <fstream>  
 
 namespace trafficlight
 {
@@ -26,6 +24,8 @@ namespace trafficlight
 		oneColourPassTime_ = 0; // The duration of the glow of the current color
 		keyComtrol_ = 's';		// Automatic start
 		timeLight_ = RED_;		// Starting with red
+
+		outfile = new std::ofstream("log_test.txt");
 	}
 
 	FacadeLights::~FacadeLights()
@@ -42,6 +42,8 @@ namespace trafficlight
 		}
 		//free vector
 		light_.clear();
+
+		outfile->close();
 	}
 
 	void FacadeLights::drow(HANDLE handle, const char key)
@@ -57,8 +59,9 @@ namespace trafficlight
 	//Determine the current color
 	FacadeLights::TimeLight FacadeLights::computeTimeLight()
 	{
-
+		
 		static int startTime(timer_->getTime()); //Initialize at startup
+
 		int currentTime = timer_->getTime();	
 		if (keyComtrol_ == 'S' || keyComtrol_ == 's')
 		{
@@ -68,6 +71,8 @@ namespace trafficlight
 		{
 			startTime = currentTime - oneColourPassTime_;	//Change the start time
 
+			*outfile << "Pause, Time = " << timer_->getTime() << std::endl;
+
 			return timeLight_;  //return the current color
 		}
 
@@ -75,39 +80,59 @@ namespace trafficlight
 		{
 		case RED_:
 			if (oneColourPassTime_ < redTime_)
+			{
+				*outfile << "Start red colour, Time = " << timer_->getTime() << std::endl;
+
 				return RED_;
+			}
 			else
 			{
 				oneColourPassTime_ = 0;
 				startTime = timer_->getTime();
 				timeLight_ = YELLOW_; //Specify the next color
+				*outfile << "End red colour, Time = " << timer_->getTime() << std::endl;
+
 				return YELLOW_;
 			}
 			break;
 		case YELLOW_:
 			if (oneColourPassTime_ < yellowTime_)
+			{
+				*outfile << "Start yellow colour, Time = " << timer_->getTime() << std::endl;
+
 				return YELLOW_;
+			}
 			else
 			{
 				oneColourPassTime_ = 0;
 				startTime = timer_->getTime();
 				timeLight_ = GREEN_; // Specify the next color
+				*outfile << "End yellow colour, Time = " << timer_->getTime() << std::endl;
+
 				return GREEN_;
 			}
 			break;
 		case GREEN_:
 			if (oneColourPassTime_ < greenTime_)
+			{
+				*outfile << "Start green colour, Time = " << timer_->getTime() << std::endl;
+
 				return GREEN_;
+			}
 			else
 			{
 				oneColourPassTime_ = 0;
 				startTime = timer_->getTime();
 				timeLight_ = RED_; // Specify the next color
+				*outfile << "End green colour, Time = " << timer_->getTime() << std::endl;
+
 				return RED_;
 			}
 			break;
 		default:
 			// Here need to handle the error
+			*outfile << "Error Message, Time = " << timer_->getTime() << std::endl;
+
 			return timeLight_; //
 			break;
 		}
