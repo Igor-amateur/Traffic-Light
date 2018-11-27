@@ -44,6 +44,7 @@ namespace trafficlight
 		light_.clear();
 
 		outfile->close();
+		delete outfile;
 	}
 
 	void FacadeLights::drow(HANDLE handle, const char key)
